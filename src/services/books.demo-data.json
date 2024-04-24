@@ -1,0 +1,78 @@
+[
+  {
+    "id": 1,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "publicationYear": 1960,
+    "description": "A novel about the injustices of the American South."
+  },
+  {
+    "id": 2,
+    "title": "1984",
+    "author": "George Orwell",
+    "description": "A dystopian novel about totalitarian regime.",
+    "rating": 5
+  },
+  {
+    "id": 3,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "publicationYear": 1813,
+    "description": "A romantic novel of manners.",
+    "rating": 4
+  },
+  {
+    "id": 4,
+    "title": "The Great Gatsby",
+    "publicationYear": 1925,
+    "description": "A novel about the American dream in the Roaring Twenties.",
+    "rating": 4
+  },
+  {
+    "id": 5,
+    "title": "Moby Dick",
+    "author": "Herman Melville",
+    "publicationYear": 1851,
+    "description": "A novel about the voyage of the whaling ship Pequod.",
+    "rating": 3
+  },
+  {
+    "id": 6,
+    "title": "War and Peace",
+    "author": "Leo Tolstoy",
+    "description": "A novel about the French invasion of Russia.",
+    "rating": 5
+  },
+  {
+    "id": 7,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "publicationYear": 1951,
+    "description": "A novel about teenage rebellion and angst.",
+    "rating": 4
+  },
+  {
+    "id": 8,
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "publicationYear": 1937,
+    "description": "A fantasy novel about Bilbo Baggins' adventure.",
+    "rating": 5
+  },
+  {
+    "id": 9,
+    "title": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "publicationYear": 1953,
+    "description": "A dystopian novel about a future American society where books are outlawed.",
+    "rating": 4
+  },
+  {
+    "id": 10,
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "publicationYear": 1954,
+    "description": "An epic fantasy novel and sequel to The Hobbit.",
+    "rating": 5
+  }
+]
