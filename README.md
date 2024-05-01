@@ -23,6 +23,16 @@ $ yarn
 $ yarn dev
 ```
 
+### To connect to the Supabase database:
+
+- Create a copy of the file `.env.local`:
+  ```
+  $ cp .env.local .env
+  ```
+- Go to the Supabase Dashboard and copy the URL and anon key
+- Paste the values into the `.env` file
+- Restart the application if you already had it running
+
 Open the application in the browser at the port displayed in the terminal.
 
 ## Linting and formatting
