@@ -25,9 +25,9 @@ $ yarn dev
 
 ### To connect to the Supabase database:
 
-- Create a copy of the file `.env.local`:
+- Create a copy of the file `.local.env`:
   ```
-  $ cp .env.local .env
+  $ cp .local.env .env
   ```
 - Go to the Supabase Dashboard and copy the URL and anon key
 - Paste the values into the `.env` file
