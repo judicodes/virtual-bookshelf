@@ -1,8 +1,21 @@
+import { useEffect, useState } from "react";
 import { BookItem } from "./components/Book";
-import { getAllBooks } from "./services/books.service";
+import { Book, getAllBooks } from "./services/books.service";
 
 function App() {
-  const books = getAllBooks();
+  const [books, setBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    async function fetchBooks() {
+      try {
+        const books = await getAllBooks();
+        setBooks(books);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchBooks().catch(console.error);
+  }, []);
 
   return (
     <div className="m-4 grid gap-4">

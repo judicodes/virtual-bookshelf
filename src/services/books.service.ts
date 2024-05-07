@@ -1,4 +1,5 @@
-import demoBooks from "./books.demo-data.json";
+import { objectToCamel } from "ts-case-convert";
+import supabase from "./supabase";
 
 export interface Book {
   id: number;
@@ -10,6 +11,26 @@ export interface Book {
   rating?: number;
 }
 
-export const getAllBooks = () => {
-  return demoBooks as Book[];
+export interface BookDTO {
+  id: number;
+  title: string;
+  author?: string;
+  publication_year?: number;
+  description?: string;
+  personal_notes?: string;
+  rating?: number;
+}
+
+export const getAllBooks = async () => {
+  const { data, error } = await supabase
+    .from("books")
+    .select()
+    .returns<BookDTO[]>();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  const books: Book[] = data.map((book) => objectToCamel(book));
+  return books;
 };
