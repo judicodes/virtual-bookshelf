@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { BookItem } from "./components/Book";
 import { Book, getAllBooks } from "./services/books.service";
+import { buttonVariants } from "./components/ui/button";
+import { Dialog, DialogTrigger } from "./components/ui/dialog";
+import AddBook from "./components/AddBook";
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -26,7 +29,15 @@ function App() {
         ))}
       </ul>
 
-      <button>Add new book</button>
+      <Dialog>
+        <div className="flex justify-center">
+          <DialogTrigger className={buttonVariants({ variant: "default" })}>
+            Add new book
+          </DialogTrigger>
+        </div>
+
+        <AddBook />
+      </Dialog>
     </div>
   );
 }
