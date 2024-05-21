@@ -19,6 +19,8 @@ export function BookItem({
           Rating: <span>{rating}</span>
         </p>
       )}
+      <button>Edit icon here</button>
+      <button>Delete icon here</button>
     </li>
   );
 }
