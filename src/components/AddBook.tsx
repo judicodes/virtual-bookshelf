@@ -4,38 +4,51 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
-import { Form, FormField, FormItem, FormControl, FormLabel } from "./ui/form";
-import { Input } from "./ui/input";
-import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
-import { z } from "zod";
 import { createBook } from "@/services/books.service";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "./ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import { Input } from "./ui/input";
 
 const formSchema = z.object({
   title: z.string(),
   author: z.string().optional(),
-  publicationYear: z.number().min(1200).max(2500).optional(),
+  publicationYear: z.string().optional(),
   description: z.string().optional(),
   personalNotes: z.string().optional(),
-  rating: z.number().optional()
+  rating: z.string().optional()
 });
 
 export default function AddBook() {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       title: "",
-      author: undefined,
-      publicationYear: undefined,
-      description: undefined,
-      personalNotes: undefined,
-      rating: undefined
+      author: "",
+      publicationYear: "",
+      description: "",
+      personalNotes: "",
+      rating: ""
     }
   });
 
-  async function handleFormSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    await createBook(values);
-  }
+  const handleFormSubmit = (values: z.infer<typeof formSchema>) => {
+    const transformedValues = {
+      title: values.title,
+      author: values.author === "" ? undefined : values.author,
+      publicationYear:
+        values.publicationYear === ""
+          ? undefined
+          : Number(values.publicationYear),
+      description: values.description === "" ? undefined : values.description,
+      personalNotes:
+        values.personalNotes === "" ? undefined : values.personalNotes,
+      rating: values.rating === "" ? undefined : Number(values.rating)
+    };
+    createBook(transformedValues).catch((error) => {
+      console.error("Failed to create book: ", error);
+    });
+  };
 
   return (
     <DialogContent>
@@ -44,6 +57,7 @@ export default function AddBook() {
       </DialogHeader>
 
       <Form {...form}>
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={form.handleSubmit(handleFormSubmit)}>
           <FormField
             name="title"
