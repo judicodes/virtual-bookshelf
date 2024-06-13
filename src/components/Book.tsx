@@ -1,18 +1,23 @@
 import { Book } from "@/services/books.service";
 import { Button } from "./ui/button";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit2 } from "lucide-react";
 import { deleteBook } from "@/services/books.service";
 
 export function BookItem({
-  id,
-  title,
-  author,
-  publicationYear,
-  description,
-  rating
-}: Book) {
+  book,
+  handleOnUpdateBooks
+}: {
+  book: Book;
+  handleOnUpdateBooks: () => void;
+}) {
+  const { id, title, author, publicationYear, description, rating } = book;
+
   const onDeleteButtonClick = () => {
-    deleteBook(id).catch(console.error);
+    deleteBook(id)
+      .then(() => {
+        handleOnUpdateBooks();
+      })
+      .catch(console.error);
   };
   return (
     <li className="grid gap-1 p-4 content-start rounded-lg border border-slate-300">
@@ -20,6 +25,15 @@ export function BookItem({
         <p className="font-bold text-xl">{title}</p>
         <Button variant="ghost" size="icon" onClick={onDeleteButtonClick}>
           <Trash2 />
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            console.log("edit");
+          }}
+        >
+          <Edit2 />
         </Button>
       </header>
       {author && <p>{author}</p>}
