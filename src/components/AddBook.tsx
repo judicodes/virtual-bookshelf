@@ -48,6 +48,7 @@ export default function AddBook() {
     createBook(transformedValues).catch((error) => {
       console.error("Failed to create book: ", error);
     });
+    form.reset();
   };
 
   return (
@@ -143,6 +144,8 @@ export default function AddBook() {
           </nav>
         </form>
       </Form>
+
+      <button onClick={() => dialogRef.current.close()}>Close dialog</button>
 
       <DialogDescription>
         You can add a new book through this form. Enjoy.

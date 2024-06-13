@@ -48,3 +48,11 @@ export const createBook = async (book: Omit<Book, "id">) => {
 
   return data;
 };
+
+export const deleteBook = async (bookId: number) => {
+  const { error } = await supabase.from("books").delete().eq("id", bookId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};

@@ -12,37 +12,34 @@
     "dev": {
       "name": "dev",
       "command": "yarn dev",
-      "runAtStart": true
+      "runAtStart": true,
+      "preview": {
+        "port": 5173
+      }
     },
     "build": {
       "name": "build",
-      "command": "yarn build",
-      "runAtStart": false
+      "command": "yarn build"
     },
     "preview": {
       "name": "preview",
-      "command": "yarn preview",
-      "runAtStart": false
+      "command": "yarn preview"
     },
     "lint": {
       "name": "lint",
-      "command": "yarn lint",
-      "runAtStart": false
+      "command": "yarn lint"
     },
     "format:check": {
       "name": "format:check",
-      "command": "yarn format:check",
-      "runAtStart": false
+      "command": "yarn format:check"
     },
     "format:fix": {
       "name": "format:fix",
-      "command": "yarn format:fix",
-      "runAtStart": false
+      "command": "yarn format:fix"
     },
     "prepare": {
       "name": "prepare",
-      "command": "yarn prepare",
-      "runAtStart": false
+      "command": "yarn prepare"
     }
   }
 }
