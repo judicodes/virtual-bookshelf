@@ -1,16 +1,17 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
-import { createBook } from "@/services/books.service";
+import { createBook, updateBook } from "@/services/books.service";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
+import { Book } from "@/services/books.service";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   title: z.string(),
@@ -25,12 +26,14 @@ interface Props {
   isOpen: boolean;
   handleOnOpenChange: (isOpen: boolean) => void;
   handleOnUpdateBooks: () => void;
+  book?: Book;
 }
 
-export default function AddBook({
+export default function BookDialog({
   isOpen,
   handleOnOpenChange,
-  handleOnUpdateBooks
+  handleOnUpdateBooks,
+  book
 }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
@@ -43,7 +46,16 @@ export default function AddBook({
     }
   });
 
-  const handleFormSubmit = (values: z.infer<typeof formSchema>) => {
+  useEffect(() => {
+    form.setValue("title", book?.title ?? "");
+    form.setValue("author", book?.author ?? "");
+    form.setValue("publicationYear", book?.publicationYear?.toString() ?? "");
+    form.setValue("description", book?.description ?? "");
+    form.setValue("personalNotes", book?.personalNotes ?? "");
+    form.setValue("rating", book?.rating?.toString() ?? "");
+  }, [book, form]);
+
+  const handleFormSubmit = async (values: z.infer<typeof formSchema>) => {
     // 1. Transform values from form into expected format for Supabase
     const transformedValues = {
       title: values.title,
@@ -58,28 +70,31 @@ export default function AddBook({
       rating: values.rating === "" ? undefined : Number(values.rating)
     };
 
-    // 2. Post transformed values to Supabase to create new record
-    createBook(transformedValues)
-      .then(() => {
-        // 3. Clear the form, so that it is ready use when the dialog openes the next time
-        form.reset();
+    try {
+      if (book) {
+        await updateBook(book.id, transformedValues);
+      } else {
+        // 2. Post transformed values to Supabase to create new record
+        await createBook(transformedValues);
+      }
+      // 3. Clear the form, so that it is ready use when the dialog openes the next time
+      form.reset();
 
-        // 4. Close the dialog
-        handleOnOpenChange(false);
+      // 4. Close the dialog
+      handleOnOpenChange(false);
 
-        // 5. Fetch all books again
-        handleOnUpdateBooks();
-      })
-      .catch((error) => {
-        console.error("Failed to create book: ", error);
-      });
+      // 5. Fetch all books again
+      handleOnUpdateBooks();
+    } catch (error) {
+      console.error("Failed to create book: ", error);
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOnOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a new book</DialogTitle>
+          <DialogTitle>{book ? "Edit book" : "Add a new book"}</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -165,14 +180,12 @@ export default function AddBook({
               )}
             />
             <nav className="mt-4">
-              <Button type="submit">Add Book to Library</Button>
+              <Button type="submit">
+                {book ? "Update book" : "Add Book to Library"}
+              </Button>
             </nav>
           </form>
         </Form>
-
-        <DialogDescription>
-          You can add a new book through this form. Enjoy.
-        </DialogDescription>
       </DialogContent>
     </Dialog>
   );

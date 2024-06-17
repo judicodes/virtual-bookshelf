@@ -49,6 +49,20 @@ export const createBook = async (book: Omit<Book, "id">) => {
   return data;
 };
 
+export const updateBook = async (
+  bookId: Book["id"],
+  book: Omit<Book, "id">
+) => {
+  const { error } = await supabase
+    .from("books")
+    .update(objectToSnake(book))
+    .eq("id", bookId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const deleteBook = async (bookId: number) => {
   const { error } = await supabase.from("books").delete().eq("id", bookId);
 

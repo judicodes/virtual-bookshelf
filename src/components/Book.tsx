@@ -5,36 +5,43 @@ import { deleteBook } from "@/services/books.service";
 
 export function BookItem({
   book,
-  handleOnUpdateBooks
+  handleOnUpdateBooks,
+  handleOnEditBook
 }: {
   book: Book;
   handleOnUpdateBooks: () => void;
+  handleOnEditBook: () => void;
 }) {
   const { id, title, author, publicationYear, description, rating } = book;
 
   const onDeleteButtonClick = () => {
-    deleteBook(id)
-      .then(() => {
-        handleOnUpdateBooks();
-      })
-      .catch(console.error);
+    if (
+      window.confirm("Are you sure you want to permanently delete this book?")
+    ) {
+      deleteBook(id)
+        .then(() => {
+          handleOnUpdateBooks();
+        })
+        .catch(console.error);
+    }
   };
+
   return (
     <li className="grid gap-1 p-4 content-start rounded-lg border border-slate-300">
-      <header className="flex gap-2 justify-between items-start">
+      <header className="flex gap-2 items-center justify-between">
         <p className="font-bold text-xl">{title}</p>
-        <Button variant="ghost" size="icon" onClick={onDeleteButtonClick}>
-          <Trash2 />
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            console.log("edit");
-          }}
-        >
-          <Edit2 />
-        </Button>
+        <div>
+          <Button variant="ghost" size="icon" onClick={handleOnEditBook}>
+            <Edit2 />
+          </Button>
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={onDeleteButtonClick}
+          >
+            <Trash2 />
+          </Button>
+        </div>
       </header>
       {author && <p>{author}</p>}
       {publicationYear && <time>{publicationYear}</time>}

@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { BookItem } from "./components/Book";
 import { Book, getAllBooks } from "./services/books.service";
 import { Button, buttonVariants } from "./components/ui/button";
-import AddBook from "./components/AddBook";
+import BookDialog from "./components/BookDialog";
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
   const [isBookDialogOpen, setIsBookDialogOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<Book | undefined>(undefined);
   const handleOnOpenChange = (isOpen: boolean) => {
     setIsBookDialogOpen(isOpen);
+    if (!isOpen) {
+      setSelectedBook(undefined);
+    }
   };
 
   async function fetchBooks() {
@@ -24,6 +28,11 @@ function App() {
     fetchBooks().catch(console.error);
   };
 
+  const handleOnEditBook = (book: Book) => {
+    setSelectedBook(book);
+    setIsBookDialogOpen(true);
+  };
+
   useEffect(() => {
     fetchBooks().catch(console.error);
   }, []);
@@ -37,6 +46,9 @@ function App() {
             key={book.id}
             book={book}
             handleOnUpdateBooks={handleUpdate}
+            handleOnEditBook={() => {
+              handleOnEditBook(book);
+            }}
           />
         ))}
       </ul>
@@ -52,10 +64,11 @@ function App() {
         </Button>
       </div>
 
-      <AddBook
+      <BookDialog
         isOpen={isBookDialogOpen}
         handleOnOpenChange={handleOnOpenChange}
         handleOnUpdateBooks={handleUpdate}
+        book={selectedBook}
       />
     </div>
   );
