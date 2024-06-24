@@ -40,7 +40,7 @@ function App() {
   return (
     <div className="m-4 grid gap-4">
       <h1 className="font-bold text-3xl">All books</h1>
-      <ul className="grid gap-2 grid-cols-[repeat(auto-fit,minmax(22ch,1fr))]">
+      <ul className="grid gap-8 grid-cols-[repeat(auto-fit,minmax(20rem,1fr))]">
         {books.map((book) => (
           <BookItem
             key={book.id}
