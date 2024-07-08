@@ -29,7 +29,7 @@ interface Props {
   book?: Book;
 }
 
-export default function BookDialog({
+export default function FormDialog({
   isOpen,
   handleOnOpenChange,
   handleOnUpdateBooks,
