@@ -51,11 +51,11 @@ export const createBook = async (book: Omit<Book, "id">) => {
 
 export const updateBook = async (
   bookId: Book["id"],
-  book: Omit<Book, "id">
+  fieldsToUpdate: Partial<Book>
 ) => {
   const { error } = await supabase
     .from("books")
-    .update(objectToSnake(book))
+    .update(objectToSnake(fieldsToUpdate))
     .eq("id", bookId);
 
   if (error) {

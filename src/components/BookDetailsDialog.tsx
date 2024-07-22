@@ -5,9 +5,11 @@ import {
   DialogHeader,
   DialogTitle
 } from "@/components/ui/dialog";
-import { Book } from "@/services/books.service";
+import { Book, updateBook } from "@/services/books.service";
 import { deleteBook } from "@/services/books.service";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -34,6 +36,8 @@ const BookDetailsDialog = ({
     rating
   } = book;
 
+  const [isEditingRating, setIsEditingRating] = useState(false);
+
   const onDeleteButtonClick = () => {
     if (
       window.confirm("Are you sure you want to permanently delete this book?")
@@ -46,6 +50,15 @@ const BookDetailsDialog = ({
         .catch(console.error);
     }
   };
+
+  const updateRating = (rating: number) => {
+    updateBook(id, { rating })
+      .then(() => {
+        handleOnUpdateBooks();
+      })
+      .catch(console.error);
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={handleOnOpenChange}>
       <DialogContent>
@@ -70,12 +83,22 @@ const BookDetailsDialog = ({
               <p>{personalNotes}</p>
             </>
           )}
+          {rating}
           {rating && (
-            <figure className="flex gap-1 text-yellow-500">
-              {Array.from(Array(rating).keys()).map((key) => (
-                <Star key={key} size={16} />
-              ))}
-            </figure>
+            <div
+              onMouseEnter={() => {
+                setIsEditingRating(true);
+              }}
+              onMouseLeave={() => {
+                setIsEditingRating(false);
+              }}
+            >
+              <StarRating
+                filledStars={rating}
+                isEditing={isEditingRating}
+                onClickStar={updateRating}
+              />
+            </div>
           )}
         </article>
 
@@ -96,5 +119,34 @@ const BookDetailsDialog = ({
     </Dialog>
   );
 };
+
+function StarRating({
+  filledStars,
+  isEditing,
+  onClickStar
+}: {
+  filledStars: number;
+  isEditing: boolean;
+  onClickStar: (starIndex: number) => void;
+}) {
+  return (
+    <figure className="flex text-yellow-500">
+      {Array.from(Array(5).keys()).map((key) => (
+        <Star
+          key={key}
+          size={24}
+          className={cn(
+            isEditing &&
+              "stroke-yellow-500 hover:fill-yellow-500 cursor-pointer has-[~_&:hover]:fill-yellow-500",
+            !isEditing && key + 1 <= filledStars && "fill-yellow-500"
+          )}
+          onClick={() => {
+            onClickStar(key + 1);
+          }}
+        />
+      ))}
+    </figure>
+  );
+}
 
 export default BookDetailsDialog;

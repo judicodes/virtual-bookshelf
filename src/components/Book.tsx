@@ -25,9 +25,9 @@ export function Book({ book }: { book: BookType }) {
           </>
         )}
         {rating && (
-          <figure className="flex gap-1 text-yellow-500">
+          <figure className="flex gap-1">
             {Array.from(Array(rating).keys()).map((key) => (
-              <Star key={key} size={16} />
+              <Star key={key} size={24} />
             ))}
           </figure>
         )}

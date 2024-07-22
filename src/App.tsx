@@ -46,6 +46,13 @@ function App() {
     fetchBooks().catch(console.error);
   }, []);
 
+  useEffect(() => {
+    if (!selectedBook) return;
+    const lastBookId = selectedBook.id;
+    const updatedSelectedBook = books.find((book) => book.id === lastBookId);
+    setSelectedBook(updatedSelectedBook);
+  }, [books, selectedBook]);
+
   return (
     <div className="m-4 grid gap-4">
       <h1 className="font-bold text-3xl">All books</h1>
