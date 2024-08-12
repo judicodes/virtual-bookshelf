@@ -1,5 +1,5 @@
 import { Book as BookType } from "@/services/books.service";
-import { Star } from "lucide-react";
+import StarRating from "./StarRating";
 
 export function Book({ book }: { book: BookType }) {
   const { title, author, publicationYear, description, personalNotes, rating } =
@@ -24,13 +24,7 @@ export function Book({ book }: { book: BookType }) {
             <p className="line-clamp-1">{personalNotes}</p>
           </>
         )}
-        {rating && (
-          <figure className="flex gap-1">
-            {Array.from(Array(rating).keys()).map((key) => (
-              <Star key={key} size={24} />
-            ))}
-          </figure>
-        )}
+        {rating && <StarRating filledStars={rating} />}
       </article>
     </li>
   );

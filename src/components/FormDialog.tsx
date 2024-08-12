@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Input } from "./ui/input";
 import { Book } from "@/services/books.service";
 import { useEffect } from "react";
+import StarRating from "./StarRating";
 
 const formSchema = z.object({
   title: z.string(),
@@ -174,11 +175,18 @@ export default function FormDialog({
                 <FormItem>
                   <FormLabel>Rating</FormLabel>
                   <FormControl>
-                    <Input placeholder="5" {...field} type="number" />
+                    <Input {...field} hidden className="hidden" />
                   </FormControl>
+                  <StarRating
+                    filledStars={field.value ? parseInt(field.value) : 0}
+                    onClickStar={(starIndex) => {
+                      form.setValue("rating", starIndex.toString());
+                    }}
+                  />
                 </FormItem>
               )}
             />
+
             <nav className="mt-4">
               <Button type="submit">
                 {book ? "Update book" : "Add Book to Library"}
